@@ -1,0 +1,3 @@
+[submodule "can2RNET"]
+	path = can2RNET
+	url = https://github.com/redragonx/can2RNET.git
