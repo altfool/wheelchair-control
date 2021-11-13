@@ -18,7 +18,7 @@ _POWER_LEVEL_MAX = 100
 _POWER_LEVEL_INCREMENT = 25
 
 msg_time_interval = 0.01
-drive_mode_code = "02000100#"
+drive_mode_code = "02000100#"   # check your own wheelchair mode and replace it.
 
 
 # temporarily no use

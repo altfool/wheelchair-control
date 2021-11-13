@@ -1,3 +1,6 @@
 [submodule "can2RNET"]
 	path = can2RNET
 	url = https://github.com/redragonx/can2RNET.git
+[submodule "keyboardctl/keyboard"]
+	path = keyboardctl/keyboard
+	url = https://github.com/boppreh/keyboard
