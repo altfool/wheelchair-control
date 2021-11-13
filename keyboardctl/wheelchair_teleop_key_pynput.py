@@ -3,7 +3,7 @@ from can2RNET import *
 from time import time
 
 # Xx level (rotation): [-10, -9, -8, ..., -1, 0, 1, 2, ..., 9, 10], the interval decided by increment.
-# negative value means clock-wise rotate, postive value means counter-clockwise rotate
+# negative value means counter-clock-wise rotate, postive value means clock-wise rotate
 _Xx_LEVEL_MIN = -100
 _Xx_LEVEL_MAX = 100
 _Xx_INCREMENT = 10
@@ -35,9 +35,9 @@ def on_release(key):
     if key == keyboard.Key.up:
         ylevel = min(_Yy_LEVEL_MAX, ylevel + _Yy_INCREMENT)
     if key == keyboard.Key.left:
-        xlevel = min(_Xx_LEVEL_MAX, xlevel + _Xx_INCREMENT)
-    if key == keyboard.Key.right:
         xlevel = max(_Xx_LEVEL_MIN, xlevel - _Xx_INCREMENT)
+    if key == keyboard.Key.right:
+        xlevel = min(_Xx_LEVEL_MAX, xlevel + _Xx_INCREMENT)
     if key == keyboard.Key.down:
         # reset joystick to 0s
         xlevel = 0

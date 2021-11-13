@@ -6,7 +6,7 @@ from time import time
 import threading
 
 # Xx level (rotation): [-10, -9, -8, ..., -1, 0, 1, 2, ..., 9, 10], the interval decided by increment.
-# negative value means clock-wise rotate, postive value means counter-clockwise rotate
+# negative value means counter-clock-wise rotate, postive value means clock-wise rotate
 _Xx_LEVEL_MIN = -100
 _Xx_LEVEL_MAX = 100
 _Xx_INCREMENT = 10
@@ -40,13 +40,13 @@ def keyDetect():
             keypress_up = True
         if keypress_right and not keyboard.is_pressed('right'):
             # print("right is released")
-            xlevel = max(_Xx_LEVEL_MIN, xlevel - _Xx_INCREMENT)
+            xlevel = min(_Xx_LEVEL_MAX, xlevel + _Xx_INCREMENT)
             keypress_right = False
         if not keypress_right and keyboard.is_pressed('right'):
             keypress_right = True
         if keypress_left and not keyboard.is_pressed('left'):
             # print("left is released")
-            xlevel = min(_Xx_LEVEL_MAX, xlevel + _Xx_INCREMENT)
+            xlevel = max(_Xx_LEVEL_MIN, xlevel - _Xx_INCREMENT)
             keypress_left = False
         if not keypress_left and keyboard.is_pressed('left'):
             keypress_left = True
