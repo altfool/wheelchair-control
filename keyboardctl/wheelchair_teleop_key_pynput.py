@@ -6,11 +6,11 @@ from time import time
 # negative value means counter-clock-wise rotate, postive value means clock-wise rotate
 _Xx_LEVEL_MIN = -100
 _Xx_LEVEL_MAX = 100
-_Xx_INCREMENT = 10
+_Xx_INCREMENT = 5
 # Yy level (forward speed): [0, 1, 2, ..., 8, 9, 10]
 _Yy_LEVEL_MIN = 0  # temporarily no use
 _Yy_LEVEL_MAX = 100
-_Yy_INCREMENT = 10
+_Yy_INCREMENT = 5
 # power level: [0,25%,50%,75%,100%] totally 5 levels on wheelchair
 # keep interval as 25 no changed.
 _POWER_LEVEL_MIN = 0
@@ -19,7 +19,7 @@ _POWER_LEVEL_INCREMENT = 25
 
 msg_time_interval = 0.01
 drive_mode_code = "02000100#"   # check your own wheelchair mode and replace it.
-
+frame_jsm_induce_error = "0c000000#" # code to JSM induce error so that we can take over the wheelchair
 
 # temporarily no use
 def on_press(key):
@@ -89,6 +89,9 @@ if __name__ == '__main__':
     global xlevel, ylevel, power_change_flag, power_level
     can_socket = opencansocket(0)       # comment out if only test keyboards
     RNETplaysong(can_socket)           # comment out if only test keyboards
+    for _ in range(5):
+        cansend(can_socket, frame_jsm_induce_error) # send in less than 1ms to induce JSM error
+
 
     power_level = _POWER_LEVEL_MIN
     power_change_flag = True
