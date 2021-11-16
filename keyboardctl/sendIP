@@ -4,7 +4,7 @@
 ## link2 (setup mail server): https://easyengine.io/tutorials/linux/ubuntu-postfix-gmail-smtp/
 ## link3 (add ca-certificate): https://www.thawte.com/roots/
 
-## ====== write sheel script to send information ======
+## ====== write shell script to send information ======
 ## you don't need to do anything here. script is inside this file.
 # reflink1: https://askubuntu.com/questions/374894/server-script-that-sends-an-email-every-time-the-global-ip-changes
 # reflink2: https://askubuntu.com/questions/931833/script-that-send-public-global-ip-on-restart
