@@ -37,4 +37,4 @@ key 'u' & 'i':
     
 
 ### Attention
-  If your wheelchair has a higher moving speed or move to some wrong direction, just press the **down arrow (&darr;)** to stop it! The joystick on wheelchair won't work in this case! Once the down arrow pressed, it immediated stop the wheelchair. Please be CAREFUL when you test the code and we are not RESPONSIBLE for anything happened.
+  If your wheelchair has a higher moving speed or move to some wrong direction, just press the **down arrow (&darr;)** to stop it! The joystick on wheelchair won't work in this case! Once the down arrow pressed, it immediated stop the wheelchair. Please be CAREFUL when you test the code and we are **NOT** responsible for anything happened.
