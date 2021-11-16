@@ -1,0 +1,42 @@
+#!/bin/bash
+## ====== setup mail server with gmail usage ======
+## link1 (question-solution): https://askubuntu.com/questions/486950/why-cant-i-send-emails-from-the-command-line-to-my-gmail-account
+## link2 (setup mail server): https://easyengine.io/tutorials/linux/ubuntu-postfix-gmail-smtp/
+## link3 (add ca-certificate): https://www.thawte.com/roots/
+
+## ====== write sheel script to send information ======
+## you don't need to do anything here. script is inside this file.
+# reflink1: https://askubuntu.com/questions/374894/server-script-that-sends-an-email-every-time-the-global-ip-changes
+# reflink2: https://askubuntu.com/questions/931833/script-that-send-public-global-ip-on-restart
+# reflink3: https://stackoverflow.com/questions/13390894/using-sendmail-from-bash-script-for-multiple-recipients/13390926#13390926
+
+## ====== setup for computer start  ======
+## say current file name is : sendIP
+## substitute "email@gmail.com" in this file to your own gmail address.
+## $ mv sendIP /usr/local/bin/sendIP
+## $ sudo chmod +x /usr/local/bin/sendIP
+## $ sudo crontab -e
+### add the line (update when reboot): @reboot /usr/local/bin/sendIP
+### add the line (update every minute): * * * * * /usr/local/bin/sendIP
+
+# 1. get ip & time
+NOWIPADDR="/tmp/nowipaddr"
+GETIPADDR="hostname -I"
+LOG="/tmp/ip.log"   # this log update every minute, so 1440/day, no worry for huge junk data.
+timestamp=$( date +%T )
+curDate=$( date +"%m-%d-%y" )
+
+# 2. send it using mail
+if [ -f $NOWIPADDR ]; then
+  if [[ `$GETIPADDR` = $(< $NOWIPADDR) ]]; then
+    echo $curDate $timestamp " IP address check: " $(< $NOWIPADDR) >> $LOG
+  else
+    echo "changed ip with nowipaddr existing."
+    $GETIPADDR > $NOWIPADDR
+    mail -s "Server IP" email@gmail.com < $NOWIPADDR
+  fi
+else
+  echo "changed ip with nowipaddr non-existing."
+  $GETIPADDR > $NOWIPADDR
+    mail -s "Server IP" email@gmail.com < $NOWIPADDR
+fi
