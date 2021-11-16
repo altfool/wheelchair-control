@@ -1,6 +1,7 @@
 This folder includes codes for remotely controlling wheelchair with keyboard.
 We currently use python to implement it.
 
+### How it works
 For raspberry pi **with** X display, you may try the file "wheelchair_teleop_key_pynput.py" in which the module pynput is used and it needs the display envrionment setup.
 (We currently just tested this version. All the codes except keyboard input detection are the same in these 2 files.)
 
@@ -8,7 +9,7 @@ Use "ssh -X" to connect to remote RPi.
 
 For raspberry pi **without** X display, you may try the file "wheelchair_teleop_key_keyboard.py" in which the module keyboard is used and it needs the sudo priority.
 
-## keyboard control
+### keyboard control
 arrow up: increase forward speed (every time increase 5, Min: 0, Max: 100)
 arrow left & right: adjust rotation.
     left: increase counter-clockwise rotation speed (every time increase 5)
@@ -24,5 +25,5 @@ key 'u' & 'i':
     When running script, the initial power level of wheelchair is set to minimum (i.e. 0%). But just care, it will move still fast.
     
 
-Attention:
+### Attention
   If your wheelchair has a higher moving speed or move to some wrong direction, just press the **down arrow** to stop it! The joystick on wheelchair won't work in this case! Once the down arrow pressed, it immediated stop the wheelchair. And please be CAREFUL when you test my code. 
