@@ -1,6 +1,8 @@
 This folder includes codes for remotely controlling wheelchair with keyboard.
 We currently use python to implement it.
 
+[![Watch the video](https://img.youtube.com/vi/t9b0iBdY7-E/maxresdefault.jpg)](https://www.youtube.com/watch?v=t9b0iBdY7-E)
+
 ### How it works
 For raspberry pi **with** X display, you may try the file "wheelchair_teleop_key_pynput.py" in which the module **pynput** is used and it needs the display envrionment setup.
 (We currently just tested this version. All the codes except keyboard input detection are the same in these 2 files.)
