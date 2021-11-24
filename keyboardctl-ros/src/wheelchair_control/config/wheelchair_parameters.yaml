@@ -1,0 +1,21 @@
+%YAML:1.0
+---
+# all below parameters are for wheelchair permobil C400, change it if you use different wheelchair model.
+# remember to test it carefully! If wheelchair too fast, set the max speed higher so the cmd_vel will be mapped to lower actual speed
+# max speed forward (with human): 4 mph = 1.78816 m/s
+# (self-defined) max speed forward (without human): 4*2 mph = 3.576 m/s ~= 4 m/s
+# (self-defined) speed lvl1: 4/5*1 m/s, lvl2: 4/5*2, lvl3: 4/5*3, lvl4: 4/5*4, lvl5: 4/5*5
+# max speed backward: 2.5 mph = 1.1176 m/s
+# minimum turning radius: 26 inches = 0.6604 m
+# max obstacle height: 2.4 inches = 0.06096 m
+# length of wheelchair: 34.5 inches = 0.8763 m
+# width of wheelchair: 24 inches = 0.6096 m
+wheelchair_max_speed_lvl1: 4.0 / 5 * 1 * 1.0
+wheelchair_max_speed_lvl2: 4.0 / 5 * 2 * 1.0
+wheelchair_max_speed_lvl3: 4.0 / 5 * 3 * 1.0
+wheelchair_max_speed_lvl4: 4.0 / 5 * 4 * 1.0
+wheelchair_max_speed_lvl5: 4.0 / 5 * 5 * 1.0 # not used
+robot_turn_radius: 0.7
+robot_length: 0.88
+robot_width: 0.62
+obstacle_height_thre: 0.06
