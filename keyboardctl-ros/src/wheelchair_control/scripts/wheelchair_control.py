@@ -11,7 +11,7 @@ speed_level_changed = True
 # wheelchair control code
 drive_mode_code = "02000100#"  # check your own wheelchair mode and replace it.
 frame_jsm_induce_error = "0c000000#"  # code to JSM induce error so that we can take over the wheelchair
-# can_socket = opencansocket(0)  # comment out if only test keyboards
+can_socket = opencansocket(0)  # comment out if only test keyboards
 
 def wheelchairctl_callback(msg: Twist, keyboardctl_flag=False):
     global speed_level, speed_level_changed
@@ -32,16 +32,16 @@ def wheelchairctl_callback(msg: Twist, keyboardctl_flag=False):
         if abs(Xx) > 100:
             Xx = math.copysign(100, Xx)
         rospy.loginfo("keyboardctl: {}, Speed-Level: {}, Xx: {}, Yy: {}".format(keyboardctl_flag, speed_level, Xx, Yy))
-        # # send wheelchair cmds based on Xx, Yy, and speed-level
-        # if speed_level_changed:
-        #     RNETsetSpeedRange(can_socket, (speed_level - 1) * speed_level_inctl)
-        #     speed_level_changed = False
-        # if Xx < 0:
-        #     Xx_cmd = dec2hex(0x100+Xx, 2)   # ~xlevel + 1 = 0xFF-abs(xlevel)+0x1
-        # else:
-        #     Xx_cmd = dec2hex(Xx, 2)
-        # drive_cmd = drive_mode_code + Xx_cmd + dec2hex(Yy, 2)
-        # cansend(can_socket, drive_cmd)        # comment out if only test keyboards
+        # send wheelchair cmds based on Xx, Yy, and speed-level
+        if speed_level_changed:
+            RNETsetSpeedRange(can_socket, (speed_level - 1) * speed_level_inctl)
+            speed_level_changed = False
+        if Xx < 0:
+            Xx_cmd = dec2hex(0x100+Xx, 2)   # ~xlevel + 1 = 0xFF-abs(xlevel)+0x1
+        else:
+            Xx_cmd = dec2hex(Xx, 2)
+        drive_cmd = drive_mode_code + Xx_cmd + dec2hex(Yy, 2)
+        cansend(can_socket, drive_cmd)        # comment out if only test keyboards
 
 
 def RNETshortBeep(cansocket):
@@ -72,13 +72,13 @@ def dec2hex(dec, hexlen):
 
 def main():
     global speed_level_changed, wheelchair_speed_dict, wheelchair_max_rotation_speed
-    ### can_socket = opencansocket(0)       # comment out if only test keyboards
-    # RNETplaysong(can_socket)  # comment out if only test keyboards
-    # for _ in range(5):
-    #     cansend(can_socket, frame_jsm_induce_error)  # send in less than 1ms to induce JSM error
-    # if speed_level_changed:
-    #     RNETsetSpeedRange(can_socket, (speed_level - 1) * speed_level_inctl)
-    #     speed_level_changed = False
+    ## can_socket = opencansocket(0)       # comment out if only test keyboards
+    RNETplaysong(can_socket)  # comment out if only test keyboards
+    for _ in range(5):
+        cansend(can_socket, frame_jsm_induce_error)  # send in less than 1ms to induce JSM error
+    if speed_level_changed:
+        RNETsetSpeedRange(can_socket, (speed_level - 1) * speed_level_inctl)
+        speed_level_changed = False
 
     # ros node init
     rospy.init_node('wheelchair_control')

@@ -4,10 +4,7 @@
 # (self-defined) max speed forward (without human): 4*2 mph = 3.576 m/s ~= 4 m/s
 # (self-defined) speed lvl1: 4/5*1 m/s, lvl2: 4/5*2, lvl3: 4/5*3, lvl4: 4/5*4, lvl5: 4/5*5
 # max speed backward: 2.5 mph = 1.1176 m/s
-# minimum turning radius: 26 inches = 0.6604 m
-# max obstacle height: 2.4 inches = 0.06096 m
-# length of wheelchair: 34.5 inches = 0.8763 m
-# width of wheelchair: 24 inches = 0.6096 m
+
 wheelchair_max_speed_lvl1: 4.0 / 5 * 1 * 1.0  # m/s
 wheelchair_max_speed_lvl2: 4.0 / 5 * 2 * 1.0
 wheelchair_max_speed_lvl3: 4.0 / 5 * 3 * 1.0

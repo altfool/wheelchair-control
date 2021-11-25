@@ -12,7 +12,7 @@ zrotate = 0
 def on_release(key):
     global xforward, zrotate, wheelchair_keyboardctl_flag
     # print('{0} released'.format(key))
-    wheelchair_keyboardctl_flag = True  # press any key will enable keyboard ctl, esc will release it.
+    wheelchair_keyboardctl_flag = True  # press any key will enable keyboard ctl, 'g' stop control, esc will quit.
     if key == keyboard.Key.up:
         xforward = min(wheelchair_max_forward_speed, xforward + wheelchair_forward_speed_inctl)
     if key == keyboard.Key.left:
@@ -22,9 +22,16 @@ def on_release(key):
     if key == keyboard.Key.down:
         xforward = 0
         zrotate = 0
-    if key == keyboard.Key.esc:
+    # 'g' and esc will both quit keyboard-control mode. g is temporary, esc is permanent
+    if key == keyboard.KeyCode.from_char('g') or key == keyboard.Key.esc:
         wheelchair_keyboardctl_flag = False
+        xforward = 0
+        zrotate = 0
     rospy.set_param('/keyboard_wheelchair_control', wheelchair_keyboardctl_flag)
+
+    if key == keyboard.Key.esc:
+        # Stop listener
+        return False
 
 
 def vel_publisher():
@@ -35,7 +42,8 @@ def vel_publisher():
         vel_msg.linear.x = xforward
         vel_msg.angular.z = math.radians(zrotate)
         vel_pub.publish(vel_msg)
-        rospy.loginfo("published twist info with keyboardctl_flag: {}, linear.x: {}, angular.z: {}".format(wheelchair_keyboardctl_flag, xforward, math.radians(zrotate)))
+        rospy.loginfo("published twist info with keyboardctl_flag: {}, linear.x: {}, angular.z: {}".format(
+            wheelchair_keyboardctl_flag, xforward, math.radians(zrotate)))
         rate.sleep()
 
 

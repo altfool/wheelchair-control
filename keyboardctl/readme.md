@@ -19,7 +19,7 @@ ssh -X", so it may need to be run directly in RPi with connected keyboard.)
 * Plug RPi into R-net hub to connect wheelchair. Start wheelchair joystick module (the original JSM).
 * On computer, use `ssh -X <username>@<ip>` to connect RPi. Remember to replace the username and ip with your own about
   RPi.
-* run `python3 <path-to-this-folder>/wheelchair_teleop_key_pynput.py`. and you should hear a song from wheelchair. And
+* run `python3 <path-to-this-folder>/wheelchair_teleop_key_pynput.py` and you should hear a song from wheelchair. And
   you can use keyboard to control the wheelchair. Please read the following instructions **first** before you actually
   work on it.
 
