@@ -1,0 +1,7 @@
+keyboard_wheelchair_control: False
+
+# change params based on your own robot
+robot_turn_radius: 0.7
+robot_length: 0.88
+robot_width: 0.62
+obstacle_height_thre: 0.06

@@ -1,4 +1,6 @@
 <launch>
-    <rosparam command="load" file="$(find wheelchair_control)/config/wheelchair_parameters.yaml" />
-    <node name="wheelchair_control" pkg="wheelchair_control" type="wheelchair_control.py" output="screen" />
+    <rosparam command="load" file="$(find wheelchair_control)/config/robot_parameters_global.yaml" />   <!-- adjust the params based on your case -->
+    <node name="wheelchair_control" pkg="wheelchair_control" type="wheelchair_control.py" output="screen" >
+        <rosparam command="load" file="$(find wheelchair_control)/config/wheelchair_parameters_local.yaml" />   <!-- adjust the params based on your case -->
+    </node>
 </launch>

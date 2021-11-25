@@ -8,15 +8,10 @@
 # max obstacle height: 2.4 inches = 0.06096 m
 # length of wheelchair: 34.5 inches = 0.8763 m
 # width of wheelchair: 24 inches = 0.6096 m
-wheelchair_max_speed_lvl1: 4.0 / 5 * 1 * 1.0
+wheelchair_max_speed_lvl1: 4.0 / 5 * 1 * 1.0  # m/s
 wheelchair_max_speed_lvl2: 4.0 / 5 * 2 * 1.0
 wheelchair_max_speed_lvl3: 4.0 / 5 * 3 * 1.0
 wheelchair_max_speed_lvl4: 4.0 / 5 * 4 * 1.0
-wheelchair_max_speed_lvl5: 4.0 / 5 * 5 * 1.0 # not used
+wheelchair_max_speed_lvl5: 4.0 / 5 * 5 * 1.0
 
-keyboard_wheelchair_control: False
-
-robot_turn_radius: 0.7
-robot_length: 0.88
-robot_width: 0.62
-obstacle_height_thre: 0.06
+wheelchair_max_rotation_speed: 120  # degree
