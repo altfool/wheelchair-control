@@ -1,4 +1,4 @@
-#!/Python3.4
+#!/usr/bin/env python3
 #Python canbus functions for R-net exploration by Specter and RedDragonX
 
 # This file is part of can2RNET.
