@@ -59,7 +59,7 @@ normal mode. Key 'esc' is used to quit keyboard control.
 ## Steps to install
 
 Here we provide a way to communicate PC with raspberry pi (RPi) on wheelchair through ROS. So most steps will be
-repeated on both platforms. Of course you may only run it in raspberry pi and use computer ssh -X to raspberry to
+repeated on both platforms. Of course you may only run it in raspberry pi and use computer ssh -X to raspberry pi to
 control it.
 
 * First install [ROS](http://wiki.ros.org/ROS/Installation) on raspberry pi (RPi) and your computer.
