@@ -1,5 +1,3 @@
-keyboard_wheelchair_control: False
-
 # change params based on your own robot
 # minimum turning radius: 26 inches = 0.6604 m
 # max obstacle height: 2.4 inches = 0.06096 m

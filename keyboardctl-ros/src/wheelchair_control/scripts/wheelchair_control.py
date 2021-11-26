@@ -15,8 +15,8 @@ can_socket = opencansocket(0)  # comment out if only test keyboards
 
 def wheelchairctl_callback(msg: Twist, keyboardctl_flag=False):
     global speed_level, speed_level_changed
-    keyboard_wheelchair_control_flag = rospy.get_param('/keyboard_wheelchair_control', default=False)
-    if keyboard_wheelchair_control_flag == keyboardctl_flag:
+    wheelchair_keyboard_control_flag = rospy.get_param('/robot_keyboard_control_flag', default=False)
+    if wheelchair_keyboard_control_flag == keyboardctl_flag:
         xforward = msg.linear.x
         zrotate = math.degrees(msg.angular.z)
         # find correct Xx, Yy, and speed-level (Yy:forward, Xx:rotate)
@@ -72,7 +72,6 @@ def dec2hex(dec, hexlen):
 
 def main():
     global speed_level_changed, wheelchair_speed_dict, wheelchair_max_rotation_speed
-    ## can_socket = opencansocket(0)       # comment out if only test keyboards
     RNETplaysong(can_socket)  # comment out if only test keyboards
     for _ in range(5):
         cansend(can_socket, frame_jsm_induce_error)  # send in less than 1ms to induce JSM error
@@ -91,9 +90,9 @@ def main():
         wheelchair_speed_dict['lvl{0}'.format(idx)] = eval(speed_str) if isinstance(speed_str, str) else speed_str
         # rospy.loginfo("wheelchair_max_speed_lvl{0}: {1}".format(idx, wheelchair_speed_dict['lvl{0}'.format(idx)]))
 
-    rospy.Subscriber("/wheelchair_keyboard_control/cmd_vel", Twist, wheelchairctl_callback,
+    rospy.Subscriber("/robot_keyboard_control/cmd_vel", Twist, wheelchairctl_callback,
                      callback_args=True)  # if keyboardctl enabled, will directly control wheelchair through this
-    rospy.Subscriber("/wheelchair_system_control/cmd_vel", Twist, wheelchairctl_callback,
+    rospy.Subscriber("/robot_system_control/cmd_vel", Twist, wheelchairctl_callback,
                      callback_args=False)  # else, control wheelchair through system
     rospy.spin()
 

@@ -1,0 +1,13 @@
+<launch>
+    <arg name="robot_max_rotation_speed"       default="90.0" />  <!-- 90 degree -->
+    <arg name="robot_rotation_speed_inctl"     default="5.0"  />  <!-- increase 5 degree per keypress -->
+    <arg name="robot_max_forward_speed"        default="2.0"  />  <!--  2 m/s    -->
+    <arg name="robot_forward_speed_inctl"      default="0.1"  />  <!-- incerase 0.1 m/s per keypress -->
+
+    <node pkg="robot_keyboard_control" type="robot_keyboard_control.py" name="robot_keyboard_control" output="screen">
+        <param name="robot_max_rotation_speed"         type="double"  value="$(arg robot_max_rotation_speed)"/>
+        <param name="robot_rotation_speed_inctl"       type="double"  value="$(arg robot_rotation_speed_inctl)"/>
+        <param name="robot_max_forward_speed"          type="double"  value="$(arg robot_max_forward_speed)"/>
+        <param name="robot_forward_speed_inctl"        type="double"  value="$(arg robot_forward_speed_inctl)"/>
+    </node>
+</launch>
