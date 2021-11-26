@@ -56,7 +56,7 @@ normal mode. Key 'esc' is used to quit keyboard control.
     * disable keyboard permanently and switch back to system control (not existing here).
     * this key is permanently, it will reset all values to 0s and quit the keypress listener.
 
-### Steps to install
+## Steps to install
 
 Here we provide a way to communicate PC with raspberry pi (RPi) on wheelchair through ROS. So most steps will be
 repeated on both platforms. Of course you may only run it in raspberry pi and use computer ssh -X to raspberry to
