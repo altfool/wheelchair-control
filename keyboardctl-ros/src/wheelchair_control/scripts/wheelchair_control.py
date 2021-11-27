@@ -13,8 +13,10 @@ drive_mode_code = "02000100#"  # check your own wheelchair mode and replace it.
 frame_jsm_induce_error = "0c000000#"  # code to JSM induce error so that we can take over the wheelchair
 can_socket = opencansocket(0)  # comment out if only test keyboards
 
+drive_cmd = drive_mode_code+"0000"
+
 def wheelchairctl_callback(msg: Twist, keyboardctl_flag=False):
-    global speed_level, speed_level_changed
+    global speed_level, speed_level_changed, drive_cmd
     wheelchair_keyboard_control_flag = rospy.get_param('/robot_keyboard_control_flag', default=False)
     if wheelchair_keyboard_control_flag == keyboardctl_flag:
         xforward = msg.linear.x
@@ -32,17 +34,30 @@ def wheelchairctl_callback(msg: Twist, keyboardctl_flag=False):
         if abs(Xx) > 100:
             Xx = math.copysign(100, Xx)
         rospy.loginfo("keyboardctl: {}, Speed-Level: {}, Xx: {}, Yy: {}".format(keyboardctl_flag, speed_level, Xx, Yy))
-        # send wheelchair cmds based on Xx, Yy, and speed-level
-        if speed_level_changed:
-            RNETsetSpeedRange(can_socket, (speed_level - 1) * speed_level_inctl)
-            speed_level_changed = False
         if Xx < 0:
             Xx_cmd = dec2hex(0x100+Xx, 2)   # ~xlevel + 1 = 0xFF-abs(xlevel)+0x1
         else:
             Xx_cmd = dec2hex(Xx, 2)
         drive_cmd = drive_mode_code + Xx_cmd + dec2hex(Yy, 2)
-        cansend(can_socket, drive_cmd)        # comment out if only test keyboards
 
+def keep_send_frames():
+    global speed_level_changed, speed_level, drive_cmd
+    # send wheelchair cmds based on Xx, Yy, and speed-level
+    msg_time_interval = 0.01
+    nexttime = time() + msg_time_interval
+    while True:
+        if speed_level_changed:
+            RNETsetSpeedRange(can_socket, (speed_level - 1) * speed_level_inctl)
+            speed_level_changed = False
+        cansend(can_socket, drive_cmd)        # comment out if only test keyboards
+        t_now = time()
+        if t_now < nexttime:
+            # print("will sleep a while")
+            sleep(nexttime - t_now)
+            nexttime += msg_time_interval
+        else:
+            # print("can not sleep, not enough time")
+            nexttime = t_now + msg_time_interval
 
 def RNETshortBeep(cansocket):
     cansend(cansocket, "181c0100#0260000000000000")
@@ -75,9 +90,9 @@ def main():
     RNETplaysong(can_socket)  # comment out if only test keyboards
     for _ in range(5):
         cansend(can_socket, frame_jsm_induce_error)  # send in less than 1ms to induce JSM error
-    if speed_level_changed:
-        RNETsetSpeedRange(can_socket, (speed_level - 1) * speed_level_inctl)
-        speed_level_changed = False
+
+    send_canframe_thread = threading.Thread(target=keep_send_frames, args=(), daemon=True)
+    send_canframe_thread.start()
 
     # ros node init
     rospy.init_node('wheelchair_control')
@@ -91,7 +106,7 @@ def main():
         # rospy.loginfo("wheelchair_max_speed_lvl{0}: {1}".format(idx, wheelchair_speed_dict['lvl{0}'.format(idx)]))
 
     rospy.Subscriber("/robot_keyboard_control/cmd_vel", Twist, wheelchairctl_callback,
-                     callback_args=True)  # if keyboardctl enabled, will directly control wheelchair through this
+                     callback_args=True, queue_size=1)  # if keyboardctl enabled, will directly control wheelchair through this
     rospy.Subscriber("/robot_system_control/cmd_vel", Twist, wheelchairctl_callback,
                      callback_args=False)  # else, control wheelchair through system
     rospy.spin()

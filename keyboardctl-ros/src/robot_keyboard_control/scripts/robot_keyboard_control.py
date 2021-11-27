@@ -35,8 +35,8 @@ def on_release(key):
 
 
 def vel_publisher():
-    vel_pub = rospy.Publisher("~cmd_vel", Twist, queue_size=100)
-    rate = rospy.Rate(100)
+    vel_pub = rospy.Publisher("~cmd_vel", Twist, queue_size=500)
+    rate = rospy.Rate(10)
     while not rospy.is_shutdown():
         vel_msg = Twist()
         vel_msg.linear.x = xforward

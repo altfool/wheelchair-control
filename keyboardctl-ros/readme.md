@@ -68,8 +68,9 @@ control it.
 * based on this [link](http://wiki.ros.org/ROS/Tutorials/MultipleMachines), set up the connection between PC and RPi
   through LAN or wifi.
     * Suppose PC will be a ros master, for brevity, you can just `export ROS_MASTER_URI=http://<master-ip>:11311` to
-      your RPi `~/.bashrc` file (remember to replace master-ip with PC ip adress). Then ros on RPi will know where to
-      find the ros master when starting. Remember to `source ~/.bashrc` if you modify it.
+      your RPi `~/.bashrc` file (remember to replace master-ip with PC ip adress).
+      And `export ROS_IP=$(hostname -I | xargs)` to both PC's and RPi's `~/.bashrc` as well. Then ros on RPi will know where to find the ros
+      master when starting. Remember to `source ~/.bashrc` if you modify it.
     * Once you defined which one is master machine, then you need to start it first with `roscore` or the other node
       will use it's own ip as master uri.
 * `git clone https://github.com/altfool/wheelchair-control` on both RPi and computer.
