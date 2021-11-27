@@ -55,8 +55,17 @@ key 'u' & 'i':
 * When running script, the initial power level of wheelchair is set to minimum (i.e. 0%). But just care, it will move
   still fast.
 
+### Wheelchair vs. Raspberry Pi
+
+* It doesn't matter which one you start first, the wheelchair JSM or RPi.
+* But RPi will fake wheelchair JSM commands and control wheelchair. The JSM will be interrupted. So make sure JSM is
+  controlling wheelchair when you want to steal control from it by RPi.
+* Once the JSM is shut down, RPi can not fake commands any more. So for safety usage, you can directly shut down the JSM
+  module. And this will directly stop the wheelchair since it uses auto-brakes.
+
 ### Attention
 
 If your wheelchair has a higher moving speed or move to some wrong direction, just press the **down arrow (&darr;)** to
-stop it! The joystick on wheelchair won't work in this case! Once the down arrow pressed, it immediated stop the
-wheelchair. Please be CAREFUL when you test the code and we are **NOT** responsible for anything happened.
+stop it! The joystick on wheelchair won't work in this case (you can shut it down to stop wheelchair as well)! Once the
+down arrow pressed, it immediated stop the wheelchair. Please be CAREFUL when you test the code and we are **NOT**
+responsible for anything happened.

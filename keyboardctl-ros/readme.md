@@ -62,32 +62,47 @@ Here we provide a way to communicate PC with raspberry pi (RPi) on wheelchair th
 repeated on both platforms. Of course you may only run it in raspberry pi and use computer ssh -X to raspberry pi to
 control it.
 
-* First install [ROS](http://wiki.ros.org/ROS/Installation) on raspberry pi (RPi) and your computer.
-
+* First install [ROS](http://wiki.ros.org/ROS/Installation) noetic on raspberry pi (RPi) and your computer.
+    * for ros on RPi, you may refer to this [link](http://wiki.ros.org/ROSberryPi/Setting%20up%20ROS%20on%20RaspberryPi)
+    * for ros noetic on RPi, you may refer to this [link](https://varhowto.com/install-ros-noetic-raspberry-pi-4/)
+* based on this [link](http://wiki.ros.org/ROS/Tutorials/MultipleMachines), set up the connection between PC and RPi
+  through LAN or wifi.
+    * Suppose PC will be a ros master, for brevity, you can just `export ROS_MASTER_URI=http://<master-ip>:11311` to
+      your RPi `~/.bashrc` file (remember to replace master-ip with PC ip adress). Then ros on RPi will know where to
+      find the ros master when starting. Remember to `source ~/.bashrc` if you modify it.
+    * Once you defined which one is master machine, then you need to start it first with `roscore` or the other node
+      will use it's own ip as master uri.
 * `git clone https://github.com/altfool/wheelchair-control` on both RPi and computer.
 
 * `cd wheelchair-control/keyboardctl-ros` on both side
 
 * `catkin_make` on both side
 
-[comment]: <> (* Git clone this repo into raspberry pi &#40;RPi&#41;.)
+* `source devel/setup.bash` on both side
 
-[comment]: <> (* Find raspberry pi's ip address &#40;see below&#41;.)
+* Now you should have PC running and RPi running (connected to wheelchair) with wheelchair joystick module (original
+  JSM) running.
+    * on PC, open a terminal and run `roscore` to start ros master
+    * on RPi, run `roslaunch wheelchair_control wheelchair_control.launch`.
+        * you should hear a song from wheelchair which indicates it's ready.
+    * on PC again, open another terminad and run `roslaunch robot_keyboard_control robot_keyboard_control.launch`
+        * now you can use arrow keys to control wheelchair, use key 'g' to toggle back to normal mode, use key 'esc' to
+          quit keyboard control.
+    * we start ros master first, then wheelchair control node, keyboard control node as last so that we won't activate
+      keyboard control when we input commands on keyboard for running other nodes.
+    * always remember to `source <path-to-keyboardctl-ros/devel/setup.bash>` for new opened terminals.
 
-[comment]: <> (* Plug RPi into R-net hub to connect wheelchair. Start wheelchair joystick module &#40;the original JSM&#41;.)
+### Wheelchair vs. Raspberry Pi
 
-[comment]: <> (* On computer, use `ssh -X <username>@<ip>` to connect RPi. Remember to replace the username and ip with your own about)
-
-[comment]: <> (  RPi.)
-
-[comment]: <> (* run `python3 <path-to-this-folder>/wheelchair_teleop_key_pynput.py` and you should hear a song from wheelchair. And)
-
-[comment]: <> (  you can use keyboard to control the wheelchair. Please read the following instructions **first** before you actually)
-
-[comment]: <> (  work on it.)
+* It doesn't matter which one you start first, the wheelchair JSM or RPi.
+* But RPi will fake wheelchair JSM commands and control wheelchair. The JSM will be interrupted. So make sure JSM is
+  controlling wheelchair when you want to steal control from it by RPi.
+* Once the JSM is shut down, RPi can not fake commands any more. So for safety usage, you can directly shut down the JSM
+  module. And this will directly stop the wheelchair since it uses auto-brakes.
 
 ## Attention
 
 If your wheelchair has a higher moving speed or move to some wrong direction, just press the **down arrow (&darr;)** to
-stop it! The joystick on wheelchair won't work in this case! Once the down arrow pressed, it immediated stop the
-wheelchair. Please be CAREFUL when you test the code and we are **NOT** responsible for anything happened.
+stop it! The joystick on wheelchair won't work in this case (you can shut it down to stop wheelchair as well)! Once the
+down arrow pressed, it immediated stop the wheelchair. Please be CAREFUL when you test the code and we are **NOT**
+responsible for anything happened.
