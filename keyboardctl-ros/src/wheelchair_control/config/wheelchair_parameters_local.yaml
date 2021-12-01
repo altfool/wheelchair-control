@@ -12,3 +12,4 @@ wheelchair_max_speed_lvl4: 4.0 / 5 * 4 * 1.0
 wheelchair_max_speed_lvl5: 4.0 / 5 * 5 * 1.0
 
 wheelchair_max_rotation_speed: 120  # degree
+wheelchair_backward_rotation_speed: 10 # degree

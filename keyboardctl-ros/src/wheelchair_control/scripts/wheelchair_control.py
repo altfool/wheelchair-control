@@ -16,11 +16,14 @@ can_socket = opencansocket(0)  # comment out if only test keyboards
 drive_cmd = drive_mode_code+"0000"
 
 def wheelchairctl_callback(msg: Twist, keyboardctl_flag=False):
-    global speed_level, speed_level_changed, drive_cmd
+    global speed_level, speed_level_changed, drive_cmd, wheelchair_backward_rotation_speed
     wheelchair_keyboard_control_flag = rospy.get_param('/robot_keyboard_control_flag', default=False)
     if wheelchair_keyboard_control_flag == keyboardctl_flag:
         xforward = msg.linear.x
         zrotate = math.degrees(msg.angular.z)
+        if xforward < 0:
+            xforward = 0
+            zrotate = wheelchair_backward_rotation_speed
         # find correct Xx, Yy, and speed-level (Yy:forward, Xx:rotate)
         for idx in range(1, 6):
             if xforward <= wheelchair_speed_dict['lvl{0}'.format(idx)]:
@@ -86,7 +89,7 @@ def dec2hex(dec, hexlen):
 
 
 def main():
-    global speed_level_changed, wheelchair_speed_dict, wheelchair_max_rotation_speed
+    global speed_level_changed, wheelchair_speed_dict, wheelchair_max_rotation_speed, wheelchair_backward_rotation_speed
     RNETplaysong(can_socket)  # comment out if only test keyboards
     for _ in range(5):
         cansend(can_socket, frame_jsm_induce_error)  # send in less than 1ms to induce JSM error
@@ -99,6 +102,7 @@ def main():
 
     # read params from ros param server
     wheelchair_max_rotation_speed = rospy.get_param('~wheelchair_max_rotation_speed', 100)
+    wheelchair_backward_rotation_speed = rospy.get_param('~wheelchair_backward_rotation_speed', 10)
     wheelchair_speed_dict = {}
     for idx in range(1, 6):
         speed_str = rospy.get_param('~wheelchair_max_speed_lvl{0}'.format(idx), default=4.0 / 5 * idx)
@@ -108,7 +112,7 @@ def main():
     rospy.Subscriber("/robot_keyboard_control/cmd_vel", Twist, wheelchairctl_callback,
                      callback_args=True, queue_size=1)  # if keyboardctl enabled, will directly control wheelchair through this
     rospy.Subscriber("/robot_system_control/cmd_vel", Twist, wheelchairctl_callback,
-                     callback_args=False)  # else, control wheelchair through system
+                     callback_args=False, queue_size=1)  # else, control wheelchair through system
     rospy.spin()
 
 

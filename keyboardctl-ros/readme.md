@@ -13,6 +13,10 @@ becomes smaller.
 
 Income: /cmd_vel (x/forward speed, z-rotation)
 
+* for wheelchair, we only allow forward and rotation (clockwise and counter-clockwise) though it could go backward. If
+  the /cmd_vel gives negative linear.x speed, we will try to rotate clockwisely so that the system could re-estimate the
+  status and update velocity commands.
+
 Outcome: CAN frame to control wheelchair (Xx, Yy, speed-level)
 
 ## Package: robot_keyboard_control
@@ -69,8 +73,8 @@ control it.
   through LAN or wifi.
     * Suppose PC will be a ros master, for brevity, you can just `export ROS_MASTER_URI=http://<master-ip>:11311` to
       your RPi `~/.bashrc` file (remember to replace master-ip with PC ip adress).
-      And `export ROS_IP=$(hostname -I | xargs)` to both PC's and RPi's `~/.bashrc` as well. Then ros on RPi will know where to find the ros
-      master when starting. Remember to `source ~/.bashrc` if you modify it.
+      And `export ROS_IP=$(hostname -I | xargs)` to both PC's and RPi's `~/.bashrc` as well. Then ros on RPi will know
+      where to find the ros master when starting. Remember to `source ~/.bashrc` if you modify it.
     * Once you defined which one is master machine, then you need to start it first with `roscore` or the other node
       will use it's own ip as master uri.
 * `git clone https://github.com/altfool/wheelchair-control` on both RPi and computer.
