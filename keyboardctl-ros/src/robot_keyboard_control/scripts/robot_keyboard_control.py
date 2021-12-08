@@ -33,8 +33,12 @@ def on_release(key):
         # Stop listener
         return False
 
+def reset():
+    print("shutdown time! reset robot_keyboard_control_flag to False!")
+    rospy.set_param('/robot_keyboard_control_flag', False)
 
 def vel_publisher():
+    global vel_pub
     vel_pub = rospy.Publisher("~cmd_vel", Twist, queue_size=500)
     rate = rospy.Rate(10)
     while not rospy.is_shutdown():
@@ -45,6 +49,8 @@ def vel_publisher():
         rospy.loginfo("published twist info with keyboardctl_flag: {}, linear.x: {}, angular.z: {}".format(
             robot_keyboardctl_flag, xforward, math.radians(zrotate)))
         rate.sleep()
+    rospy.on_shutdown(reset)
+
 
 
 def main():
