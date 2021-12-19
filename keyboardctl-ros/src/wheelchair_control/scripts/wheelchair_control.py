@@ -20,7 +20,7 @@ def wheelchairctl_callback(msg: Twist, keyboardctl_flag=False):
     wheelchair_keyboard_control_flag = rospy.get_param('/robot_keyboard_control_flag', default=False)
     if wheelchair_keyboard_control_flag == keyboardctl_flag:
         xforward = msg.linear.x
-        zrotate = math.degrees(msg.angular.z)
+        zrotate = -math.degrees(msg.angular.z)   # cmd_vel: positive z means counter-clockwise
         if xforward < 0:
             xforward = 0
             zrotate = wheelchair_backward_rotation_speed
