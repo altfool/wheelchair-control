@@ -16,9 +16,9 @@ def on_release(key):
     if key == keyboard.Key.up:
         xforward = min(robot_max_forward_speed, xforward + robot_forward_speed_inctl)
     if key == keyboard.Key.left:
-        zrotate = max(-robot_max_rotation_speed, zrotate - robot_rotation_speed_inctl)
-    if key == keyboard.Key.right:
         zrotate = min(robot_max_rotation_speed, zrotate + robot_rotation_speed_inctl)
+    if key == keyboard.Key.right:
+        zrotate = max(-robot_max_rotation_speed, zrotate - robot_rotation_speed_inctl)
     if key == keyboard.Key.down:
         xforward = 0
         zrotate = 0
