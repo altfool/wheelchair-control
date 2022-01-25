@@ -95,7 +95,7 @@ control it.
           quit keyboard control.
     * we start ros master first, then wheelchair control node, keyboard control node as last so that we won't activate
       keyboard control when we input commands on keyboard for running other nodes.
-    * always remember to `source <path-to-keyboardctl-ros/devel/setup.bash>` for new opened terminals.
+    * always remember to `source <path-to-keyboardctl-ros>/devel/setup.bash` for new opened terminals.
 
 ### Wheelchair vs. Raspberry Pi
 
