@@ -5,7 +5,7 @@
     <arg name="robot_keyboard_control_flag" default="/robot_keyboard_control_flag" />
 
 
-    <rosparam command="load" file="$(find wheelchair_control)/config/robot_parameters_global.yaml" />   <!-- adjust the params based on your case -->
+    <!-- <rosparam command="load" file="$(find wheelchair_control)/config/robot_parameters_global.yaml" /> -->  <!-- adjust the params based on your case -->
     <node name="wheelchair_control" pkg="wheelchair_control" type="wheelchair_control.py" output="screen" >
         <remap from="/robot_keyboard_control/cmd_vel" to="$(arg robot_keyboard_control_topic)" />
         <remap from="/robot_system_control/cmd_vel" to="$(arg robot_system_control_topic)" />
